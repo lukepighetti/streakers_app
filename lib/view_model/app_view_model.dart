@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:streakers_app/architecture/stored_value_notifier.dart';
 import 'package:streakers_app/di.dart';
 import 'package:streakers_app/models/app_model.dart';
+import 'package:streakers_app/models/pb_user_model.dart';
 
 class AppViewModel extends StoredValueNotifier<AppModel> {
   AppViewModel()
@@ -17,22 +19,16 @@ class AppViewModel extends StoredValueNotifier<AppModel> {
     await super.initialize();
     final x = await _pb.refreshLoginOrCreate();
     value = value.copyWith(user: x);
-    print(value);
+    if (kDebugMode) debugPrint('$value');
   }
 
-  // Future<void> initialize() async {
-  //   final json = di.storage.appViewModel.initial;
-  //   try {
-  //     if (json == null) return;
-  //     value = AppModelMapper.fromJson(json);
-  //   } catch (e) {
-  //     debugPrint('issue deserializing AppModel, failing gracefully');
-  //   }
-  // }
+  bool get needsOnboarding => !value.user.hasName || !value.user.hasAvatar;
 
-  // @override
-  // set value(AppModel value) {
-  //   di.storage.appViewModel.save(value.toJson());
-  //   super.value = value;
-  // }
+  Future<void> updateUserProfile(
+    PbUserModel Function(PbUserModelCopyWith) fn,
+  ) async {
+    value = value.copyWith(
+      user: await di.pb.updateUser(fn(value.user!.copyWith)),
+    );
+  }
 }

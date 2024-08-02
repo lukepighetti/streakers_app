@@ -20,6 +20,11 @@ class PbApi {
         await loginAnonymousUser() ??
         await createAnonymousUser();
   }
+
+  Future<PbUserModel> updateUser(PbUserModel user) async {
+    final x = await usersCollection.update(user.id, body: user.toMap());
+    return PbUserModelMapper.fromMap(x.toJson());
+  }
 }
 
 extension _Auth on PbApi {
@@ -28,7 +33,7 @@ extension _Auth on PbApi {
       if (_pb.authStore.isValid) {
         final x = await usersCollection.authRefresh().then((x) => x.record);
         if (x == null) return null;
-        return PbUserModelMapper.fromMap(x.row);
+        return PbUserModelMapper.fromMap(x.toJson());
       }
     } catch (e) {
       // fallthrough returns null
@@ -53,7 +58,7 @@ extension _AnonymousAuth on PbApi {
       "password": anonPassword,
       "passwordConfirm": anonPassword,
     });
-    return PbUserModelMapper.fromMap(x.row);
+    return PbUserModelMapper.fromMap(x.toJson());
   }
 
   Future<PbUserModel?> loginAnonymousUser() async {
@@ -62,18 +67,9 @@ extension _AnonymousAuth on PbApi {
           .authWithPassword(anonUsername, anonPassword)
           .then((x) => x.record);
       if (x == null) return null;
-      return PbUserModelMapper.fromMap(x.row);
+      return PbUserModelMapper.fromMap(x.toJson());
     } catch (e) {
       return null;
     }
   }
-}
-
-extension on RecordModel {
-  Map<String, dynamic> get row => {
-        "id": id,
-        "created": created,
-        "updated": updated,
-        ...data,
-      };
 }

@@ -13,6 +13,7 @@ class PbUserModelMapper extends ClassMapperBase<PbUserModel> {
   static PbUserModelMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = PbUserModelMapper._());
+      PbUserModelAvatarMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -29,8 +30,9 @@ class PbUserModelMapper extends ClassMapperBase<PbUserModel> {
   static const Field<PbUserModel, String> _f$email = Field('email', _$email);
   static String? _$name(PbUserModel v) => v.name;
   static const Field<PbUserModel, String> _f$name = Field('name', _$name);
-  static String? _$avatar(PbUserModel v) => v.avatar;
-  static const Field<PbUserModel, String> _f$avatar = Field('avatar', _$avatar);
+  static PbUserModelAvatar? _$avatar(PbUserModel v) => v.avatar;
+  static const Field<PbUserModel, PbUserModelAvatar> _f$avatar =
+      Field('avatar', _$avatar, hook: NullableEnumHook());
   static DateTime? _$created(PbUserModel v) => v.created;
   static const Field<PbUserModel, DateTime> _f$created =
       Field('created', _$created);
@@ -116,7 +118,7 @@ abstract class PbUserModelCopyWith<$R, $In extends PbUserModel, $Out>
       String? username,
       String? email,
       String? name,
-      String? avatar,
+      PbUserModelAvatar? avatar,
       DateTime? created,
       DateTime? updated});
   PbUserModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);

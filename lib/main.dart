@@ -1,3 +1,4 @@
+import 'package:context_watch/context_watch.dart';
 import 'package:flutter/material.dart';
 import 'package:streakers_app/di.dart';
 import 'package:streakers_app/theme.dart';
@@ -13,10 +14,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Streakers',
-      theme: appTheme(),
-      routerConfig: di.navigation.router,
+    return ContextWatch.root(
+      child: MaterialApp.router(
+        title: 'Streakers',
+        theme: appTheme(context),
+        routerConfig: di.navigation.router,
+      ),
     );
   }
 }
