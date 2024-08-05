@@ -1,6 +1,7 @@
 import 'package:pocketbase/pocketbase.dart';
 import 'package:streakers_app/architecture/log.dart';
 import 'package:streakers_app/di.dart';
+import 'package:streakers_app/models/pb_streak.dart';
 import 'package:streakers_app/models/pb_user_model.dart';
 import 'package:streakers_app/services/gen.dart';
 
@@ -17,6 +18,7 @@ class PbApi {
   );
 
   RecordService get usersCollection => _pb.collection('users');
+  RecordService get streaksCollection => _pb.collection('streaks');
 
   /// Usually called at startup to ensure we're logged in anonymously with a fresh token
   Future<PbUserModel> refreshLoginOrCreate() async {
@@ -28,5 +30,10 @@ class PbApi {
   Future<PbUserModel> updateUser(PbUserModel user) async {
     final x = await usersCollection.update(user.id, body: user.toMap());
     return PbUserModelMapper.fromMap(x.toJson());
+  }
+
+  Future<PbStreak> createStreak(PbStreak streak) async {
+    final x = await streaksCollection.create(body: streak.toMap());
+    return PbStreakMapper.fromMap(x.toJson());
   }
 }

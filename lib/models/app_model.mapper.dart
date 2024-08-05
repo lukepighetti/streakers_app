@@ -14,6 +14,7 @@ class AppModelMapper extends ClassMapperBase<AppModel> {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = AppModelMapper._());
       PbUserModelMapper.ensureInitialized();
+      PbStreakMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -23,14 +24,18 @@ class AppModelMapper extends ClassMapperBase<AppModel> {
 
   static PbUserModel? _$user(AppModel v) => v.user;
   static const Field<AppModel, PbUserModel> _f$user = Field('user', _$user);
+  static Map<String, PbStreak> _$streaks(AppModel v) => v.streaks;
+  static const Field<AppModel, Map<String, PbStreak>> _f$streaks =
+      Field('streaks', _$streaks);
 
   @override
   final MappableFields<AppModel> fields = const {
     #user: _f$user,
+    #streaks: _f$streaks,
   };
 
   static AppModel _instantiate(DecodingData data) {
-    return AppModel(user: data.dec(_f$user));
+    return AppModel(user: data.dec(_f$user), streaks: data.dec(_f$streaks));
   }
 
   @override
@@ -83,7 +88,9 @@ extension AppModelValueCopy<$R, $Out> on ObjectCopyWith<$R, AppModel, $Out> {
 abstract class AppModelCopyWith<$R, $In extends AppModel, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   PbUserModelCopyWith<$R, PbUserModel, PbUserModel>? get user;
-  $R call({PbUserModel? user});
+  MapCopyWith<$R, String, PbStreak, PbStreakCopyWith<$R, PbStreak, PbStreak>>
+      get streaks;
+  $R call({PbUserModel? user, Map<String, PbStreak>? streaks});
   AppModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -99,11 +106,19 @@ class _AppModelCopyWithImpl<$R, $Out>
   PbUserModelCopyWith<$R, PbUserModel, PbUserModel>? get user =>
       $value.user?.copyWith.$chain((v) => call(user: v));
   @override
-  $R call({Object? user = $none}) =>
-      $apply(FieldCopyWithData({if (user != $none) #user: user}));
+  MapCopyWith<$R, String, PbStreak, PbStreakCopyWith<$R, PbStreak, PbStreak>>
+      get streaks => MapCopyWith($value.streaks, (v, t) => v.copyWith.$chain(t),
+          (v) => call(streaks: v));
   @override
-  AppModel $make(CopyWithData data) =>
-      AppModel(user: data.get(#user, or: $value.user));
+  $R call({Object? user = $none, Map<String, PbStreak>? streaks}) =>
+      $apply(FieldCopyWithData({
+        if (user != $none) #user: user,
+        if (streaks != null) #streaks: streaks
+      }));
+  @override
+  AppModel $make(CopyWithData data) => AppModel(
+      user: data.get(#user, or: $value.user),
+      streaks: data.get(#streaks, or: $value.streaks));
 
   @override
   AppModelCopyWith<$R2, AppModel, $Out2> $chain<$R2, $Out2>(

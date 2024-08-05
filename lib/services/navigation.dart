@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:streakers_app/di.dart';
 import 'package:streakers_app/screens/home_screen.dart';
 import 'package:streakers_app/screens/onboarding_screen.dart';
+import 'package:streakers_app/sheets/create_streak_sheet.dart';
 
 class NavigationService {
   final router = GoRouter(
@@ -36,12 +37,16 @@ class NavigationService {
     return _showBottomSheet(OnboardingScreen(onSubmit: router.pop));
   }
 
-  static Future<T?> _showBottomSheet<T>(Widget child) {
-    return showModalBottomSheet<T>(
-      context: di.navigatorKey.currentContext!,
-      builder: (_) => child,
-      clipBehavior: Clip.antiAlias,
-      scrollControlDisabledMaxHeightRatio: 0.85,
-    );
+  Future<void> showCreateStreak() {
+    return _showBottomSheet(CreateStreakSheet());
   }
+}
+
+Future<T?> _showBottomSheet<T>(Widget child) {
+  return showModalBottomSheet<T>(
+    context: di.navigatorKey.currentContext!,
+    builder: (_) => child,
+    clipBehavior: Clip.antiAlias,
+    scrollControlDisabledMaxHeightRatio: 0.85,
+  );
 }
