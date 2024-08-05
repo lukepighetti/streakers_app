@@ -6,7 +6,9 @@ import 'package:streakers_app/theme.dart';
 import 'package:streakers_app/widgets/selectable_avatar.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+  const OnboardingScreen({super.key, this.onSubmit});
+
+  final VoidCallback? onSubmit;
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();
@@ -29,6 +31,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           avatar: _avatarController.value,
           name: _nameController.text.trim(),
         ));
+
+    widget.onSubmit?.call();
   }
 
   @override

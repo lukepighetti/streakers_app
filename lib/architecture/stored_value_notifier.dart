@@ -17,7 +17,7 @@ class StoredValueNotifier<T> extends ValueNotifier<T> {
       if (json == null) return;
       value = mapper.decodeJson(json);
     } catch (e) {
-      debugPrint('issue deserializing ${e.runtimeType}, failing gracefully');
+      debugPrint('issue deserializing $e, failing gracefully');
     }
   }
 

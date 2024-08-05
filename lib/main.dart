@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         title: 'Streakers',
         theme: appTheme(context),
+        debugShowCheckedModeBanner: false,
         routerConfig: di.navigation.router,
       ),
     );

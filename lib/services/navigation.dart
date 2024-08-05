@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:streakers_app/di.dart';
 import 'package:streakers_app/screens/home_screen.dart';
@@ -20,7 +21,9 @@ class NavigationService {
       ),
       GoRoute(
         path: '/onboarding',
-        builder: (context, state) => OnboardingScreen(),
+        builder: (context, state) => OnboardingScreen(
+          onSubmit: () => context.go('/'),
+        ),
       ),
       GoRoute(
         path: '/home',
@@ -28,4 +31,17 @@ class NavigationService {
       ),
     ],
   );
+
+  Future<void> showOnboardingSheet() {
+    return _showBottomSheet(OnboardingScreen(onSubmit: router.pop));
+  }
+
+  static Future<T?> _showBottomSheet<T>(Widget child) {
+    return showModalBottomSheet<T>(
+      context: di.navigatorKey.currentContext!,
+      builder: (_) => child,
+      clipBehavior: Clip.antiAlias,
+      scrollControlDisabledMaxHeightRatio: 0.85,
+    );
+  }
 }

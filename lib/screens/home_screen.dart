@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:streakers_app/di.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,7 +12,17 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(PhosphorIconsRegular.gear),
+            onPressed: () {
+              di.navigation.showOnboardingSheet();
+            },
+          ),
+        ],
+      ),
       body: Center(
         child: Text("Home"),
       ),

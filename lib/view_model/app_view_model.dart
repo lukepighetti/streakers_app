@@ -19,7 +19,7 @@ class AppViewModel extends StoredValueNotifier<AppModel> {
     await super.initialize();
     final x = await _pb.refreshLoginOrCreate();
     value = value.copyWith(user: x);
-    if (kDebugMode) debugPrint('$value');
+    if (kDebugMode) debugPrint('AppViewModel.initialize(): $value');
   }
 
   bool get needsOnboarding => !value.user.hasName || !value.user.hasAvatar;
