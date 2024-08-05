@@ -1,4 +1,5 @@
 import 'package:pocketbase/pocketbase.dart';
+import 'package:streakers_app/architecture/log.dart';
 import 'package:streakers_app/di.dart';
 import 'package:streakers_app/models/pb_user_model.dart';
 import 'package:streakers_app/services/gen.dart';
